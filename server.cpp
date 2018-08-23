@@ -11,7 +11,7 @@
 #include <cstring> // strerror
 #include <cstdio>
 #include <cstdlib>
-#include <cerrno>
+//#include <cerror>
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -36,9 +36,9 @@ void handleJob(std::unique_ptr<Job> job){
       std::cerr << "going away" << std::endl;
       break;
     }
-     
-    unsigned char one[17] = {0x01,0x02,0x00,0x00,0x11,0x00,0x00,0x00,0xf9,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-    ::write(job->_fd, one, 17);
+      
+  unsigned char one[17] = {0x01,0x02,0x00,0x00,0x11,0x00,0x00,0x00,0xf9,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+  ::write(job->_fd, one, 17);
   }
   std::cerr << "Exiting" << std::endl;
 
@@ -51,18 +51,19 @@ int main() {
   auto connections = Connections();
   
   std::cout << "hello world2" << std::endl;
-  SimpleSocket socket(8101);
-
-
+  SimpleSocket socket(8101);  
+    
   int connection;
   while ((connection = socket.waitForConnection())) {
     bool newUser = connections.isNew(connection);
     std::cout << "New ?? " << (newUser ? "Yes" : "No") << std::endl;
     std::string bytes = getBytesFromLogin(connection);
-    
+
+
     std::cout <<"bytes:" << bytes << std::endl;
     pending.push_back(std::async(std::launch::async, handleJob, Task::getJob(connection, bytes)));
     std::cout << "pushed" << std::endl;
+
   }
   return 0;
 }
