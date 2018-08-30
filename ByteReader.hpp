@@ -42,7 +42,7 @@ std::string getBytesFromLogin(int connection)
   
 }
 
-int getBytesFromQuery(int connection) {  
+std::vector<char> getBytesFromQuery(int connection) {  
   char buffer[1024];
   std::size_t read = 0;
   std::size_t shouldRead = 0;
@@ -59,7 +59,7 @@ int getBytesFromQuery(int connection) {
     }
     if (actual == -1)
     {
-      std::cerr << "actual -1" << std::endl;
+      std::cerr << "actual -1" << "ERR:" << errno <<std::endl;
       throw std::runtime_error("Read Error");
     }
     read += actual;
@@ -84,9 +84,14 @@ int getBytesFromQuery(int connection) {
     }
     if (read == shouldRead) {
       break;
-    }
-      
+    }      
   }
   std::cout << "read::" << read << std::endl;
-  return read;
+
+  auto result = std::vector<char>();
+  for (int i =0 ; i < read; ++i) {
+    result.push_back(buffer[i]);
+  }
+  
+  return result;
 }
