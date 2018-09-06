@@ -22,7 +22,7 @@
 #include "Task.hpp"
 #include "QConn.hpp"
 #include "QInstance.hpp"
-#include "lib/cxxopts.hpp"
+#include "cxxopts.hpp"
 #include "Connections.hpp"
 
 

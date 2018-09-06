@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 project (CMAKETEST C CXX)
+include_directories(include lib)
 find_package( Threads )
-add_executable(server server.cpp SimpleSocket.cpp Connections.cpp QConn.cpp)
+add_executable(server src/server.cpp src/SimpleSocket.cpp src/Connections.cpp src/QConn.cpp)
 target_link_libraries(server ${CMAKE_THREAD_LIBS_INIT} )
