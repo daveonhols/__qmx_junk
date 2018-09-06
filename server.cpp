@@ -8,10 +8,10 @@
 #include <netinet/in.h>
 
 
-#include <cstring> // strerror
+#include <cstring>
 #include <cstdio>
 #include <cstdlib>
-//#include <cerror>
+
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -43,7 +43,8 @@ void handleJob(std::unique_ptr<Job> job, std::vector<QInstance> conns){
       
     //unsigned char one[17] = {0x01,0x02,0x00,0x00,0x11,0x00,0x00,0x00,0xf9,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
     //::write(job->_fd, one, 17);
-    conn.AcceptBytes(chars);
+    auto response = conn.AcceptBytes(chars);
+    ::write(job->_fd, response.data(), response.size());
   }
   std::cerr << "Exiting" << std::endl;
 

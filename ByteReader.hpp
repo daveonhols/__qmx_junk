@@ -49,6 +49,7 @@ std::vector<char> getBytesFromQuery(int connection) {
   while(true) {
     ssize_t actual = ::read(connection, buffer + read, 4096 - read);
     std::cout << "AA:" << actual << std::endl;
+    std::cout << "!!:" << (short)buffer[0] << ":!!" << std::endl;
     if (actual == 0)
     {
       break;
@@ -71,14 +72,14 @@ std::vector<char> getBytesFromQuery(int connection) {
     if ((read >= 8 ) && (0 == shouldRead))
     {
       for (int i = 4; i < 8; ++i) {
-	shouldRead += buffer[i];
-	std::cout << "Reading" << shouldRead << std::endl;
+        shouldRead += buffer[i];
+        std::cout << "Reading" << shouldRead << std::endl;
       }
-      std::cout << "Read" << std::endl;
-      for (size_t i = 0; i < read; ++i)
-	std::cout << (short)buffer[i];
+      std::cout << "Read" << read << std::endl;
+      for (size_t j = 0; j < read; ++j)
+	      std::cout << (short)buffer[j] << "." << std::endl;
       if (read == shouldRead) {
-	break;
+	      break;
       }
       continue;
     }

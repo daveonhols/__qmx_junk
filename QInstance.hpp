@@ -42,10 +42,16 @@ QInstance::QInstance(QConn conn) {
     std::cout << "ERROR connecting" << std::endl;
 
   std::cout << "connected ... " << std::endl;
-  unsigned char pw[8] = { 0x61,0x62,0x63,0x3A,0x61,0x62,0x63,0x00 };
-  ::write(_fd, pw, 8);
+  unsigned char pw[9] = { 0x61,0x62,0x63,0x3A,0x61,0x62,0x63,0x03,0x00 };
+  ::write(_fd, pw, 9);
   std::cout << "wrote .. " << std::endl;
-  
+
+  char logback[64];
+  std::size_t read = 0;
+
+  ssize_t actual = ::read(_fd, logback, 64);
+  std::cout << "AA:" << actual << std::endl;
+  std::cout << "LOGIN:" << logback[0] << std::endl;
 }
 
 std::vector<char> QInstance::AcceptBytes(std::vector<char> bytes) {
