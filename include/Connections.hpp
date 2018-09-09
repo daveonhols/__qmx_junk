@@ -1,8 +1,19 @@
-#include <set>
+#include <deque>
+#include <mutex>
+#include <condition_variable>
 
-class Connections{
+#include "QInstance.hpp"
+
+class Connections
+{
+private:
+  std::deque<QInstance> _conns;
+  std::mutex _mutex;
+  std::condition_variable _available;
+
 public:
-  std::set<int> conns;
-  bool isNew(int conn);
-  void add(int conn);
+  Connections() { _conns = std::deque<QInstance>(); };
+  Connections(std::deque<QInstance>& conns) { _conns = conns; };
+  QInstance Take();
+  void Return(QInstance&& instance);
 };
