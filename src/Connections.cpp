@@ -3,7 +3,6 @@
 QInstance Connections::Take() {
     std::unique_lock<std::mutex> guard(_mutex);
     while (_conns.size() == 0) {
-        std::cout << "Waiting on conn ... " << std::endl;
         _available.wait(guard);
     }
     QInstance next = std::move(_conns.front());

@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 
+#include <chrono>
+
 #include "SimpleSocket.hpp"
 #include "Job.hpp"
 #include "Task.hpp"
@@ -23,34 +25,42 @@
 
 void handleJob(std::unique_ptr<Job> job, Connections& conns)
 {
-  std::cout << "Job::" << std::endl;
   char buffer[1];
   buffer[0] = 3;
-  ::write(job->_fd, buffer, 1);
-  std::cout << "Job done" << std::endl;  
+  ssize_t wrote = ::write(job->_fd, buffer, 1);
+  if (wrote < 1) return;
   while (true)
   {
-    auto chars = getBytesFromQuery(job->_fd);
-
-    if (0 == read)
-    {
-      std::cerr << "going away" << std::endl;
-      break;
-    }
-
-    //unsigned char one[17] = {0x01,0x02,0x00,0x00,0x11,0x00,0x00,0x00,0xf9,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-    //::write(job->_fd, one, 17);
+    auto query = getQueryPreamble(job->_fd);
+    auto s = std::chrono::steady_clock::now();
+    int length = getQueryLength(query);
+    std::cout << "T1:" <<  std::chrono::duration_cast<std::chrono::milliseconds>  (std::chrono::steady_clock::now() - s).count() << std::endl;
+    // std::cout << "Query Length:" << length << std::endl;
     QInstance conn = conns.Take();
-    auto response = conn.AcceptBytes(chars);
+    std::cout << "T2:" <<  std::chrono::duration_cast<std::chrono::milliseconds>  (std::chrono::steady_clock::now() - s).count() << std::endl;
+    // send query from user to Kdb
+    forwardBytes(job->_fd, conn.fd(), query, length - 8); // - 8 because we have read pre-amble
+    std::cout << "T3:" <<  std::chrono::duration_cast<std::chrono::milliseconds>  (std::chrono::steady_clock::now() - s).count() << std::endl;
+    auto response = getQueryPreamble(conn.fd());
+    std::cout << "T4:" <<  std::chrono::duration_cast<std::chrono::milliseconds>  (std::chrono::steady_clock::now() - s).count() << std::endl;
+    auto responseLength = getQueryLength(response);
+    std::cout << "T5:" <<  std::chrono::duration_cast<std::chrono::milliseconds>  (std::chrono::steady_clock::now() - s).count() << std::endl;
+    //std::cout << "Response Length:" << responseLength << std::endl;
+    forwardBytes(conn.fd(), job->_fd, response, responseLength - 8); // - 8 because we have read pre-amble
+    std::cout << "T6:" <<  std::chrono::duration_cast<std::chrono::milliseconds>  (std::chrono::steady_clock::now() - s).count() << std::endl;
     conns.Return(std::move(conn));
-    ::write(job->_fd, response.data(), response.size());
+    std::cout << "T7:" <<  std::chrono::duration_cast<std::chrono::milliseconds>  (std::chrono::steady_clock::now() - s).count() << std::endl;
+    //::write(job->_fd, response.data(), response.size());
   }
   std::cerr << "Exiting" << std::endl;
 }
 
 int main(int argc, char *argv[])
 {
-
+  
+  unsigned int bb[8] = {0x0, 0x0, 0x0, 0x0, 0xc6, 0x34, 0x0c, 0x00};
+  std::vector<unsigned char> buff{bb, std::end(bb)};
+  std::cout << "size::" << getQueryLength(buff) << std::endl;
   QConn q1(":localhost:5000");
   QConn q2(":localhost:5001");
   //QInstance qi(q);

@@ -12,7 +12,8 @@ private:
 public:
   QInstance(QConn conn);
   QInstance();
-  std::vector<char> AcceptBytes(std::vector<char> bytes);
+  std::vector<unsigned char> AcceptBytes(std::vector<unsigned char> bytes);
+  int fd() {return _fd;};
 };
 
 #endif
