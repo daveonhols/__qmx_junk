@@ -1,6 +1,7 @@
 #include <deque>
 #include <mutex>
 #include <condition_variable>
+#include <iostream>
 
 #include "QInstance.hpp"
 

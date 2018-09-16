@@ -1,9 +1,7 @@
-#ifndef QINSTANCE_HPP
-#define QINSTANCE_HPP
-
 #include <vector>
 #include "ByteReader.hpp"
 #include "QConn.hpp"
+
 
 class QInstance {
 private:
@@ -12,8 +10,7 @@ private:
 public:
   QInstance(QConn conn);
   QInstance();
-  std::vector<unsigned char> AcceptBytes(std::vector<unsigned char> bytes);
-  int fd() {return _fd;};
+  int fd() { return _fd; };
+  void AcceptBytes(std::vector<char> bytes);
 };
 
-#endif
