@@ -12,6 +12,7 @@ QInstance Connections::Take() {
 }
 
 void Connections::Return(QInstance &&instance) {
+  std::cout << "Putting back nicely" << std::endl;
   std::unique_lock<std::mutex> guard(_mutex);
   _conns.push_back(std::move(instance));
   _available.notify_one();

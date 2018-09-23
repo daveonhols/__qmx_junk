@@ -17,11 +17,12 @@
 
 #include <chrono>
 
-#include "Connections.hpp"
+//#include "Connections.hpp"
 #include "Job.hpp"
 #include "SimpleSocket.hpp"
 #include "Task.hpp"
 #include "cxxopts.hpp"
+#include "OwnedQInstance.hpp"
 
 void handleJob(std::unique_ptr<Job> job, Connections &conns) {
   std::cout << "Job::" << std::endl;
@@ -33,19 +34,14 @@ void handleJob(std::unique_ptr<Job> job, Connections &conns) {
   while (true) {
     auto chars = getBytesFromQuery(job->_fd);
 
-    if (0 == read) {
+    if (0 == chars.size()) {
       std::cerr << "going away" << std::endl;
       break;
     }
 
-    // unsigned char one[17] =
-    // {0x01,0x02,0x00,0x00,0x11,0x00,0x00,0x00,0xf9,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-    //::write(job->_fd, one, 17);
-    QInstance conn = conns.Take();
-    conn.AcceptBytes(chars);
-    forwardBytes(conn.fd(), job->_fd);
-    //::write(job->_fd, response.data(), response.size());
-    conns.Return(std::move(conn));
+    OwnedQInstance conn(conns);
+    conn.getInstance().AcceptBytes(chars);
+    forwardBytes(conn.getInstance().fd(), job->_fd);
   }
   std::cerr << "Exiting" << std::endl;
 }

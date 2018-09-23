@@ -25,4 +25,4 @@ QConn::QConn(std::string conn) {
 
 QConn::QConn() {}
 
-std::string QConn::getConnString() {}
+std::string QConn::getConnString() {return "";}
