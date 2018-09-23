@@ -31,7 +31,9 @@ SimpleSocket::SimpleSocket(int port) {
                              std::strerror(errno));
   }
 }
+
 SimpleSocket::~SimpleSocket() { ::close(sockfd); }
+
 int SimpleSocket::waitForConnection() {
   int result = ::listen(sockfd, 5);
   if (result < 0) {

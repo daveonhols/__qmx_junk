@@ -1,3 +1,6 @@
+#ifndef CONNECTIONS_H
+#define CONNECTIONS_H
+
 #include <deque>
 #include <mutex>
 #include <condition_variable>
@@ -18,3 +21,5 @@ public:
   QInstance Take();
   void Return(QInstance&& instance);
 };
+
+#endif

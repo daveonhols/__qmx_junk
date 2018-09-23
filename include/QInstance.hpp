@@ -1,3 +1,6 @@
+#ifndef QINSTANCE_H
+#define QINSTANCE_H
+
 #include <vector>
 #include "ByteReader.hpp"
 #include "QConn.hpp"
@@ -14,3 +17,4 @@ public:
   void AcceptBytes(std::vector<char> bytes);
 };
 
+#endif

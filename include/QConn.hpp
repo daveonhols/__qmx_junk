@@ -1,3 +1,7 @@
+#ifndef QCONN_H
+#define QCONN_H
+
+
 #include <string>
 #include <sstream>
 #include <vector>
@@ -17,3 +21,5 @@ public:
   int port() { return _port; };
   std::string host() { return _host; };
 };
+
+#endif
