@@ -3,4 +3,4 @@
 #include "Job.hpp"
 #include "Connections.hpp"
 
-void handleJob(std::unique_ptr<Job> job, Connections &conns);
+void handleJob(ISocket&& socket, Connections& conns);

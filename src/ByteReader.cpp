@@ -1,6 +1,15 @@
 #include "ByteReader.hpp"
+#include "Socket.hpp"
+
+
+std::vector<char> getBytesFromLogin(ISocket& socket) {
+  std::cout << "BFL AA" << std::endl;
+  return socket.ReadChunk();
+}
+
 
 std::string getBytesFromLogin(int connection) {
+  std::cout << "BFL2" << std::endl;
   char buffer[64];
   for (int i = 0; i < 63; ++i) {
     buffer[i] = 65;
@@ -27,6 +36,12 @@ std::string getBytesFromLogin(int connection) {
   }
   return buffer;
 }
+
+
+void socketForwardBytes(ISocket& from, ISocket& to) {
+  to.Write(from.Read());
+}
+
 
 void forwardBytes(int from, int to) {
   int len = 0;

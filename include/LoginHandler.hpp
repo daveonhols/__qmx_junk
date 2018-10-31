@@ -1,3 +1,6 @@
+#include "ISocket.hpp"
+
+
 #ifndef LOGINHANDLER_H
 #define LOGINHANDLER_H
 

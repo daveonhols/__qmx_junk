@@ -17,7 +17,7 @@ private:
 
 public:
   Connections() { _conns = std::deque<QInstance>(); };
-  Connections(std::deque<QInstance>& conns) { _conns = conns; };
+  Connections(std::deque<QInstance> conns) : _conns(conns) { };
   QInstance Take();
   void Return(QInstance&& instance);
 };

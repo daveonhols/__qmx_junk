@@ -1,12 +1,13 @@
 #include <string>
+#include "ISocket.hpp"
 
 class Job {
 public:
-  Job(int fd, std::string bytes) {
-    _fd = fd;
+  Job(ISocket& socket, std::vector<char> bytes) : _socket(socket) {
     _bytes = bytes;
+    socket.Show();
+    _socket.Show();
   }
-  std::string _bytes;
-  int _fd;
-
+  std::vector<char> _bytes;
+  ISocket& _socket;
 };

@@ -1,4 +1,5 @@
 #include "Connections.hpp"
+#include "QInstance.hpp"
 
 QInstance Connections::Take() {
   std::unique_lock<std::mutex> guard(_mutex);

@@ -1,3 +1,9 @@
+
+#include <vector>
+#include <string>
+#include <iostream>
+#include <sstream>
+
 #include "QConn.hpp"
 
 QConn::QConn(std::string conn) {
@@ -12,17 +18,16 @@ QConn::QConn(std::string conn) {
     std::cout << p << std::endl;
   }
 
-  if (parts.size() == 3) {
-    _host = parts[1];
-    _port = std::stoi(parts[2]);
-    _auth = "";
-    _fd = 0;
-    _ready = false;
+  if(parts.size() < 3) {
+    throw new std::runtime_error("Badly configured QConn");
   }
 
+  _host = 0 == parts[1].length() ? "localhost" : parts[1];
+  _port = std::stoi(parts[2]);
+  _ready = false;
+
+  if (parts.size() == 5) {
+    _auth = parts[3] + ":" + parts[4];
+  }
   std::cout << "parsed..." << std::endl;
 }
-
-QConn::QConn() {}
-
-std::string QConn::getConnString() {return "";}

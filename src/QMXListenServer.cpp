@@ -1,4 +1,5 @@
 #include "QMXListenServer.hpp"
+#include "Socket.hpp"
 
 #include <cstring> // strerror
 #include <memory>
@@ -50,8 +51,8 @@ void QMXListenServer::Listen() {
     if (newsockfd < 0) {
         std::cout << "FAILING:: " << errno << "::" << newsockfd << std::endl;        
         throw std::runtime_error("accept failed");
-    }
+    }    
+    std::cout << "Listened: " << newsockfd << std::endl;
     _login.onLogin(newsockfd);
   }
-  //return newsockfd;
 }
