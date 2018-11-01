@@ -1,4 +1,4 @@
-#include "SimpleSocket.hpp"
+/*#include "SimpleSocket.hpp"
 
 #include <cstring> // strerror
 #include <memory>
@@ -48,3 +48,4 @@ int SimpleSocket::waitForConnection() {
   }
   return newsockfd;
 }
+*/

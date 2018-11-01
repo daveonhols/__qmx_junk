@@ -4,7 +4,7 @@
 #ifndef LOGINHANDLER_H
 #define LOGINHANDLER_H
 
-class LoginHandler {
+class ILoginHandler {
     public:
         virtual void onLogin(int fd) = 0;
 };

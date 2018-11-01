@@ -1,5 +1,4 @@
 #include "AsyncLoginHandler.hpp"
-#include "ByteReader.hpp"
 #include "Handlers.hpp"
 #include "Task.hpp"
 #include "Socket.hpp"
@@ -15,8 +14,7 @@
 void AsyncLoginHandler::onLogin(int fd) {
     
     Socket sock(fd);
-    std::vector<char> bytes = getBytesFromLogin(sock);    
-    std::cout << "login bytes" << bytes.size() << std::endl;
+    std::vector<unsigned char> bytes = sock.ReadChunk();
 
     _pending.push_back(
         std::async(

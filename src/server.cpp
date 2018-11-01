@@ -37,14 +37,10 @@ int main(int argc, char *argv[]) {
   Socket s2 (q2.host(), q2.port());
   c.push_back(QInstance(q1, s1));
   c.push_back(QInstance(q2, s2));
-  
-  std::cout << "HAS::" << c.size() << std::endl;
 
-  std::for_each(c.begin(), c.end(), [](auto& conn){ std::cout << "XXX" << std::endl; conn.SendLogin(); });
+  std::for_each(c.begin(), c.end(), [](auto& conn){ conn.SendLogin(); });
 
   Connections cn{std::move(c)};
-
-  std::cout << "starting listen <<" << std::endl;
 
   AsyncLoginHandler login(cn);
   QMXListenServer qmx(8844, login);

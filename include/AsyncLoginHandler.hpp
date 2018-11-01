@@ -4,10 +4,10 @@
 #include <vector>
 #include <future>
 
-#include "LoginHandler.hpp"
+#include "ILoginHandler.hpp"
 #include "Connections.hpp"
 
-class AsyncLoginHandler : public LoginHandler {
+class AsyncLoginHandler : public ILoginHandler {
     public:
         AsyncLoginHandler(Connections& conns) : _conns(conns), _pending() {}
         void onLogin(int fd);

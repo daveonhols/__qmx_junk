@@ -8,8 +8,7 @@
 
 #include "QInstance.hpp"
 
-class Connections
-{
+class Connections {
 private:
   std::deque<QInstance> _conns;
   std::mutex _mutex;

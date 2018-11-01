@@ -13,7 +13,6 @@ QConn::QConn(std::string conn) {
   while (std::getline(ss, part, ':')) {
     parts.push_back(part);
   }
-  std::cout << "Parts::" << parts.size() << std::endl;
   for (auto &p : parts) {
     std::cout << p << std::endl;
   }
@@ -24,10 +23,8 @@ QConn::QConn(std::string conn) {
 
   _host = 0 == parts[1].length() ? "localhost" : parts[1];
   _port = std::stoi(parts[2]);
-  _ready = false;
 
   if (parts.size() == 5) {
     _auth = parts[3] + ":" + parts[4];
   }
-  std::cout << "parsed..." << std::endl;
 }

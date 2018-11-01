@@ -14,7 +14,7 @@
 
 using namespace std::literals;
 
-QMXListenServer::QMXListenServer(int port, LoginHandler& login) : _fd(port), _login(login) {
+QMXListenServer::QMXListenServer(int port, ILoginHandler& login) : _fd(port), _login(login) {
   _fd = ::socket(AF_INET, SOCK_STREAM, 0);
   if (_fd < 0) {
     throw std::runtime_error("Failed to create socket");
@@ -49,10 +49,9 @@ void QMXListenServer::Listen() {
     int newsockfd =
         ::accept(_fd, reinterpret_cast<sockaddr *>(&cli_addr), &clilen);
     if (newsockfd < 0) {
-        std::cout << "FAILING:: " << errno << "::" << newsockfd << std::endl;        
+        std::cerr << "FAILING:: " << errno << "::" << newsockfd << std::endl;        
         throw std::runtime_error("accept failed");
-    }    
-    std::cout << "Listened: " << newsockfd << std::endl;
+    }
     _login.onLogin(newsockfd);
   }
 }

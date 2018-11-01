@@ -6,18 +6,13 @@
 #include <iostream>
 
 class ISocket {
-
     public:
-        ISocket(int fd) : _fd(fd) {};
-        ISocket(std::string, int port);
-        virtual ~ISocket();
-        virtual std::vector<char> Read() = 0;
-        virtual std::vector<char> ReadChunk() = 0;
-        virtual void Write(std::vector<char>) = 0;
-        virtual void Show() {std::cout << "Base" << std::endl;}
-    protected:
-        int _fd;
-
+        virtual ~ISocket() {};
+        virtual std::vector<unsigned char> ReadFully() = 0;
+        virtual std::vector<unsigned char> ReadChunk() = 0;
+        virtual void ForwardRemaining(std::vector<unsigned char> initial, ISocket& to) = 0;
+        virtual void ForwardAll(ISocket& to) = 0;
+        virtual void Write(std::vector<unsigned char>) = 0;
 };
 
 #endif

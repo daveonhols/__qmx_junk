@@ -10,5 +10,5 @@ add_test(NAME example_test COMMAND example)
 
 find_package( Threads )
 
-add_executable(server src/server.cpp src/SimpleSocket.cpp src/Connections.cpp src/QConn.cpp src/QInstance.cpp src/ByteReader.cpp src/AsyncLoginHandler.cpp src/Handlers.cpp src/ListenServer.cpp src/QMXListenServer.cpp src/Socket.cpp src/ISocket.cpp)
+add_executable(server src/server.cpp src/ISocket.cpp src/SimpleSocket.cpp src/Connections.cpp src/QConn.cpp src/QInstance.cpp src/AsyncLoginHandler.cpp src/Handlers.cpp src/ListenServer.cpp src/QMXListenServer.cpp src/Socket.cpp)
 target_link_libraries(server ${CMAKE_THREAD_LIBS_INIT} )

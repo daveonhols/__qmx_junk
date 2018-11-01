@@ -1,12 +1,12 @@
-#include "ListenServer.hpp"
-#include "LoginHandler.hpp"
+#include "IListenServer.hpp"
+#include "ILoginHandler.hpp"
 
-class QMXListenServer : public ListenServer {
+class QMXListenServer : public IListenServer {
     public:
         void Listen();
-        QMXListenServer(int port, LoginHandler& login );
+        QMXListenServer(int port, ILoginHandler& login);
         ~QMXListenServer();
     private:
         int _fd;
-        LoginHandler& _login;
+        ILoginHandler& _login;
 };

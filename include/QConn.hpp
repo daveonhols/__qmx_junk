@@ -6,7 +6,6 @@
 class QConn {
 private:
   std::string _host;
-  bool _ready;
   int _port;
   std::string _auth;
 public:
